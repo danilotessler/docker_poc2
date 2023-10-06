@@ -8,6 +8,29 @@
         <main>
             <h1>Welcome to My Website</h1>  
         </main>
+        <form >
+            <input type="text" id="apiURI" value="https://localhost:7294" />
+            <br />
+            Token Key: <input type="text" id="tokenKey" value="" />
+            <input type="button" value="Get Values" onclick="LoadAll();">
+            <br />            
+            Token Value: <input type="text" id="tokenValue" value="" />
+            <input type="button" value="Set Value" onclick="SetToken();">
+        </form>
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>Date Time</th>
+                <td><div id="datetime" name="datetime" /></td>
+            </tr>
+            <tr>
+                <th>IP</th>
+                <td><div id="ip" name="ip" /></td>
+            </tr>
+            <tr>
+                <th>Token</th>
+                <td><div id="token" name="token" /></td>
+            </tr>             
+        </table>        
         <script src="index.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
     </body>

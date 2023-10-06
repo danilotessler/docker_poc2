@@ -9,9 +9,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/api/webapp2api/bin/Debug/net7.0/webapp2api.dll",
+            "program": "${workspaceFolder}/api/bin/Debug/net7.0/webapp2api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/api/webapp2api",
+            "cwd": "${workspaceFolder}/api",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
