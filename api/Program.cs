@@ -8,6 +8,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "";
+    options.InstanceName = "webapp2";
+});
+
 var app = builder.Build();
 
 app.UseSwagger();

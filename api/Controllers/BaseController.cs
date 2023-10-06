@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
+using System.Reflection.Metadata;
 
 namespace webapp2api.Controllers;
 
@@ -9,10 +12,12 @@ namespace webapp2api.Controllers;
 public class BaseController : ControllerBase
 {
     private readonly ILogger<BaseController> _logger;
+    private readonly IDistributedCache _cache;
 
-    public BaseController(ILogger<BaseController> logger)
+    public BaseController(ILogger<BaseController> logger, IDistributedCache cache)
     {
         _logger = logger;
+        _cache = cache;
     }
 
     [HttpGet]
@@ -31,15 +36,28 @@ public class BaseController : ControllerBase
 
     [HttpPost]
     [Route("getvalue")]
-    public async Task<ActionResult<string>> GetValue()
+    public async Task<ActionResult<string>> GetValue(KeyPair kp)
     {
-        return "";
+        string? ret = _cache.GetString(kp.key);
+
+        if (ret == null)
+            ret = "";
+
+        return ret;
     }    
 
     [HttpPost]
     [Route("setvalue")]
-    public async Task<ActionResult<string>> SetValue()
+    public async Task<ActionResult<string>> SetValue(KeyPair kp)
     {
+        _cache.SetString(kp.key, kp.value);
+
         return "";
     }       
+}
+
+public class KeyPair
+{
+    public string key { get; set; }
+    public string value { get; set; }
 }
