@@ -11,6 +11,8 @@ phases:
       - docker build -t poc_webapp2api .
       - echo TAG api
       - docker tag poc_webapp2api $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/poc_webapp2api
+      - cd ../react 
+      - aws s3 cp ./* s3://pocwebapp2"
 
   post_build:
     commands:
