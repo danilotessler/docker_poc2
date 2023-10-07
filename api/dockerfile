@@ -22,7 +22,7 @@ WORKDIR /app
 
 COPY --from=builder /app/release/ /app/
 
-EXPOSE 80
-ENV DOTNET_URLS=http://+:80
+EXPOSE 80 443
+ENV DOTNET_URLS=http://+:80;https://+:443
 
 ENTRYPOINT ["dotnet", "webapp2api.dll"]

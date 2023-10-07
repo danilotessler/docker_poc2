@@ -53,9 +53,9 @@ async function Post(divID, apiPath, payload)
 
 function LoadAll()
 {
-    Get("datetime", "/Base/datetime");
+    //Get("datetime", "/Base/datetime");
     Get("ip", "/Base/ip");
-    Post("token", "/Base/getvalue", "{ key : " + document.getElementById("tokenKey").value + "}") 
+    //Post("token", "/Base/getvalue", "{ key : " + document.getElementById("tokenKey").value + "}") 
 }
 
 function SetToken()
