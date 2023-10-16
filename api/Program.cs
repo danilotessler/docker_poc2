@@ -30,4 +30,6 @@ app.UseCors(x => x
     .AllowAnyHeader()
     .SetIsOriginAllowed(origin => true)); // allow credentials
 
+app.MapGet("/", () => "HealthCheck OK");
+
 app.Run();
