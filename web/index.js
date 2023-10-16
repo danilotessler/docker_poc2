@@ -1,6 +1,10 @@
+var intervalId = null;
+
 async function Get(divID, apiPath) 
 {
     var uri = APIURI() + apiPath;
+
+    console.log(uri);
 
     fetch (uri,
     {
@@ -8,6 +12,7 @@ async function Get(divID, apiPath)
     })
     .then(async response => 
     { 
+        console.log(response.ok);
         if (response.ok)
         { 
             var value = await response.text();
@@ -16,7 +21,7 @@ async function Get(divID, apiPath)
         } 
         else
         { 
-            throw new Error('API request failed'); 
+            setValue(divID, "Not Found");
         } 
     })
     .catch(error => { 
@@ -35,33 +40,43 @@ async function Post(divID, apiPath, payload)
     })
     .then(async response => 
     { 
-        if (response.ok)
-        { 
-            var value = await response.text();
-
-            setValue(divID, value);
-        } 
-        else
-        { 
-            throw new Error('API request failed'); 
-        } 
+        setValue(divID, response.status);
     })
     .catch(error => { 
-        console.error(error); // Example: Logging the error to the console 
+        setValue(divID, "ERROR");
+        console.error(error);
     });
+}
+
+function Refresh()
+{
+    if (intervalId == null)
+    {
+        LoadAll();
+        intervalId = setInterval(LoadAll, 5000);
+    }
+    else
+    {
+        clearInterval(intervalId);
+        intervalId = null;
+    }
 }
 
 function LoadAll()
 {
-    //Get("datetime", "/Base/datetime");
-    Get("ip", "/Base/ip");
-    //Post("token", "/Base/getvalue", "{ key : " + document.getElementById("tokenKey").value + "}") 
+    Get("datetime", "/api/datetime");
+    Get("ip", "/api/ip");
+
+    var token = getValueTextBox("tokenIDRead");
+    if (token.length > 0)
+        Get("token", "/api/ip/" + token);
+    else
+    setValue("token", "");
 }
 
 function SetToken()
 {
-    Post("token", "/Base/setvalue", "{ key : " + document.getElementById("tokenKey").value + ", value : " + document.getElementById("tokenValue").value + " }")
-    LoadAll(); 
+    Post("response", "/api/token", "{ key : " + document.getElementById("tokenKey").value + ", value : " + document.getElementById("tokenValue").value + " }")
 }
 
 function setValue(id, value) 
@@ -69,7 +84,17 @@ function setValue(id, value)
     document.getElementById(id).innerHTML = value;
 }
 
+function getValueTextBox(id) 
+{
+    return document.getElementById(id).value;
+}
+
+function getValueDiv(id) 
+{
+    return document.getElementById(id).innerHTML;
+}
+
 function APIURI()
 {
-    return document.getElementById("apiURI").value;
+    return "http://localhost"
 }

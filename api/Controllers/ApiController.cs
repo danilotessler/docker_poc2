@@ -6,12 +6,12 @@ namespace webapp2api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class BaseController : ControllerBase
+public class ApiController : ControllerBase
 {
-    private readonly ILogger<BaseController> _logger;
+    private readonly ILogger<ApiController> _logger;
     private readonly IDistributedCache _cache;
 
-    public BaseController(ILogger<BaseController> logger, IDistributedCache cache)
+    public ApiController(ILogger<ApiController> logger, IDistributedCache cache)
     {
         _logger = logger;
         _cache = cache;
@@ -32,7 +32,7 @@ public class BaseController : ControllerBase
     }    
 
     [HttpGet]
-    [Route("getvalue/{key}")]
+    [Route("token/{key}")]
     public async Task<ActionResult<string>> GetValue(string key)
     {
         string? ret = _cache.GetString(key);
@@ -44,7 +44,7 @@ public class BaseController : ControllerBase
     }    
 
     [HttpPost]
-    [Route("setvalue")]
+    [Route("token")]
     public async Task<ActionResult> SetValue(KeyPair kp)
     {
         _cache.SetString(kp.key, kp.value);
@@ -53,15 +53,15 @@ public class BaseController : ControllerBase
     }
 
     [HttpPut]
-    [Route("setvalue/{key}")]
-    public async Task<ActionResult> SetValue(string key, [FromBody]KeyPair kp)
+    [Route("token/{key}")]
+    public async Task<ActionResult> UpdateValue(string key, [FromBody]string value)
     {
         string? ret = _cache.GetString(key);
 
         if (ret == null)
             return NotFound();
 
-        _cache.SetString(key, kp.value);
+        _cache.SetString(key, value);
 
         return Ok();
     }    
