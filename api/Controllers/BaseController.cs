@@ -1,10 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json;
-using System.Reflection.Metadata;
-
+using Microsoft.AspNetCore.Http.HttpResults;
 namespace webapp2api.Controllers;
 
 [ApiController]
@@ -34,26 +31,40 @@ public class BaseController : ControllerBase
         return Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
     }    
 
-    [HttpPost]
-    [Route("getvalue")]
-    public async Task<ActionResult<string>> GetValue(KeyPair kp)
+    [HttpGet]
+    [Route("getvalue/{key}")]
+    public async Task<ActionResult<string>> GetValue(string key)
     {
-        string? ret = _cache.GetString(kp.key);
+        string? ret = _cache.GetString(key);
 
         if (ret == null)
-            ret = "";
+            return NotFound();
 
         return ret;
     }    
 
     [HttpPost]
     [Route("setvalue")]
-    public async Task<ActionResult<string>> SetValue(KeyPair kp)
+    public async Task<ActionResult> SetValue(KeyPair kp)
     {
         _cache.SetString(kp.key, kp.value);
 
-        return "";
-    }       
+        return Ok();
+    }
+
+    [HttpPut]
+    [Route("setvalue/{key}")]
+    public async Task<ActionResult> SetValue(string key, [FromBody]KeyPair kp)
+    {
+        string? ret = _cache.GetString(key);
+
+        if (ret == null)
+            return NotFound();
+
+        _cache.SetString(key, kp.value);
+
+        return Ok();
+    }    
 }
 
 public class KeyPair
