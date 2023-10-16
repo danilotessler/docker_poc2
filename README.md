@@ -1,1 +1,1 @@
-# docker_poc2
+# SPA using Docker and AWS POC
