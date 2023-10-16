@@ -37,6 +37,13 @@ jobs:
       run: |
           aws ecs update-service --cluster "WebApp_2" --service "api" --force-new-deployment
   
-        
-        
+    - name: Build, tag, and push Web
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: "spapoc/web"
+        IMAGE_TAG: latest
+      run: |
+        cd web
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         
