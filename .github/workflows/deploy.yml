@@ -35,7 +35,7 @@ jobs:
         
     - name: Recicle containers
       run: |
-          aws ecs update-service --cluster "WebApp_2" --service --force-new-deployment "api"
+          aws ecs update-service --cluster "WebApp_2" --service "api" --force-new-deployment
   
         
         
