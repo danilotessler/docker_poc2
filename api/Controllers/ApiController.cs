@@ -28,6 +28,8 @@ public class ApiController : ControllerBase
     [Route("ip")]
     public async Task<ActionResult<string>> GetIP()
     {
+        Response.Headers.Add("Access-Control-Allow-Origin", "*");
+
         return Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
     }    
 
