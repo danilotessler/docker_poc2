@@ -6,14 +6,14 @@ async function Get(divID, apiPath)
 
     console.log(uri);
 
-    fetch (uri,
-    {
-        method: "GET",
-        headers:{'content-type': 'application/json'}
-    })
+    const options = {
+        method: "GET"
+    };
+
+    fetch (uri, options)
     .then(async response => 
     { 
-        console.log(response.ok);
+        console.log(response.status);
         if (response.ok)
         { 
             var value = await response.text();
@@ -26,7 +26,7 @@ async function Get(divID, apiPath)
         } 
     })
     .catch(error => { 
-        console.error(error); // Example: Logging the error to the console 
+        console.log(error); // Example: Logging the error to the console 
     });
 }
 
@@ -34,19 +34,21 @@ async function Post(divID, apiPath, payload)
 {
     var uri = APIURI() + apiPath;
 
-    fetch (uri,
-    {
+    const options = {
         method: "POST",
-        body: payload,
-        headers:{'content-type': 'application/json'}
-    })
+        headers: new Headers({'content-type': 'application/json'})
+    };
+
+    options.body = JSON.stringify(payload);
+
+    fetch (uri, options)
     .then(async response => 
     { 
         setValue(divID, response.status);
     })
     .catch(error => { 
         setValue(divID, "ERROR");
-        console.error(error);
+        console.log(error);
     });
 }
 
