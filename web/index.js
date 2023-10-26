@@ -64,16 +64,14 @@ function Refresh()
 
 function LoadAll()
 {
-    Get("datetime", "/api/datetime");
-    /*
     Get("ip", "/api/ip");
+    Get("datetime", "/api/datetime");
 
     var token = getValueTextBox("tokenIDRead");
     if (token.length > 0)
         Get("token", "/api/ip/" + token);
     else
         setValue("token", "");
-    */
 }
 
 function SetToken()
@@ -98,6 +96,5 @@ function getValueDiv(id)
 
 function APIURI()
 {
-    //return "http://3.145.172.41"
     return "https://jfe2dx6sla.execute-api.us-east-2.amazonaws.com";
 }
