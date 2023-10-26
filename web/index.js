@@ -8,7 +8,8 @@ async function Get(divID, apiPath)
 
     fetch (uri,
     {
-        method: "GET"
+        method: "GET",
+        headers:{'content-type': 'application/json'}
     })
     .then(async response => 
     { 
@@ -36,7 +37,8 @@ async function Post(divID, apiPath, payload)
     fetch (uri,
     {
         method: "POST",
-        body: payload
+        body: payload,
+        headers:{'content-type': 'application/json'}
     })
     .then(async response => 
     { 
