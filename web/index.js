@@ -13,7 +13,7 @@ async function Get(divID, apiPath)
     fetch (uri, options)
     .then(async response => 
     { 
-        console.log(response.status);
+        console.log(uri + " - " + response.status);
         if (response.ok)
         { 
             var value = await response.text();
@@ -44,6 +44,9 @@ async function Post(divID, apiPath, payload)
     fetch (uri, options)
     .then(async response => 
     { 
+        console.log(uri + " - " + response.status);
+        console.log(options.body);
+
         setValue(divID, response.status);
     })
     .catch(error => { 
@@ -73,14 +76,14 @@ function LoadAll()
 
     var token = getValueTextBox("tokenIDRead");
     if (token.length > 0)
-        Get("token", "/api/ip/" + token);
+        Get("token", "/api/token/" + token);
     else
         setValue("token", "");
 }
 
 function SetToken()
 {
-    Post("response", "/api/token", "{ key : " + document.getElementById("tokenKey").value + ", value : " + document.getElementById("tokenValue").value + " }")
+    Post("response", "/api/token", { key : document.getElementById("tokenKey").value , value : document.getElementById("tokenValue").value })
 }
 
 function setValue(id, value) 
@@ -100,5 +103,10 @@ function getValueDiv(id)
 
 function APIURI()
 {
-    return "https://jfe2dx6sla.execute-api.us-east-2.amazonaws.com";
+    const queryParams = new URLSearchParams(window.location.search);
+
+    if (queryParams.has('apigw'))
+        return "https://xjoclxq9pi.execute-api.us-east-2.amazonaws.com";
+    else
+        return "http://spapoc-api-1646957827.us-east-2.elb.amazonaws.com";
 }
