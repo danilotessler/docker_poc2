@@ -105,8 +105,8 @@ function APIURI()
 {
     const queryParams = new URLSearchParams(window.location.search);
 
-    if (queryParams.has('apigw'))
-        return "https://xjoclxq9pi.execute-api.us-east-2.amazonaws.com";
-    else
+    if (queryParams.has('lb'))
         return "http://spapoc-api-1646957827.us-east-2.elb.amazonaws.com";
+    else
+        return "https://xjoclxq9pi.execute-api.us-east-2.amazonaws.com";
 }
