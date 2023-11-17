@@ -26,7 +26,7 @@ jobs:
     - name: Build, tag, and push API
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: "spapoc/api"
+        ECR_REPOSITORY: "spa-api"
         IMAGE_TAG: latest
       run: |
         cd api
@@ -36,14 +36,10 @@ jobs:
     - name: Build, tag, and push Web
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: "spapoc/web"
+        ECR_REPOSITORY: "spa-web"
         IMAGE_TAG: latest
       run: |
         cd web
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        
-    - name: Recicle containers
-      run: |
-          aws ecs update-service --cluster "WebApp_2" --service "api" --force-new-deployment
-          aws ecs update-service --cluster "WebApp_2" --service "web" --force-new-deployment
+   

@@ -10,8 +10,8 @@ builder.Services.AddCors();
 
 builder.Services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = "webapp2.jpzeh6.ng.0001.use2.cache.amazonaws.com:6379";
-    options.InstanceName = "webapp2";
+    options.Configuration = "spademo.jpzeh6.ng.0001.use2.cache.amazonaws.com:6379";
+    options.InstanceName = "spademo";
 });
 
 var app = builder.Build();
